@@ -97,7 +97,7 @@
             <table class="min-w-full divide-y divide-gray-200 text-sm">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-3 py-2 text-left font-medium text-gray-500">ID</th>
+                        <th class="px-3 py-2 text-left font-medium text-gray-500">No</th>
                         <th class="px-3 py-2 text-left font-medium text-gray-500">Tanggal</th>
                         <th class="px-3 py-2 text-left font-medium text-gray-500">Total</th>
                         <th class="px-3 py-2 text-left font-medium text-gray-500">Aksi</th>
@@ -106,7 +106,7 @@
                 <tbody class="divide-y divide-gray-200">
                     @forelse($transaksiTerakhir as $transaksi)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-3 py-2">{{ $transaksi->id }}</td>
+                            <td class="px-3 py-2">{{ $loop->iteration }}</td>
                             <td class="px-3 py-2">{{ $transaksi->created_at->format('d/m/Y H:i') }}</td>
                             <td class="px-3 py-2">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
                             <td class="px-3 py-2">

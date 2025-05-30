@@ -100,12 +100,16 @@ class DashboardController extends Controller
             'nama' => 'required|string|max:255',
             'nama_toko' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'no_hp' => 'nullable|string|max:15',
+            'alamat' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 
         $user->nama = $validated['nama'];
         $user->nama_toko = $validated['nama_toko'];
         $user->email = $validated['email'];
+        $user->no_hp = $validated['no_hp'];
+        $user->alamat = $validated['alamat'];
 
         if ($validated['password']) {
             $user->password = Hash::make($validated['password']);

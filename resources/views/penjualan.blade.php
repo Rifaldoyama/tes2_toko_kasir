@@ -123,9 +123,9 @@
     <!-- QR Code Modal -->
     <!-- QR Code Modal -->
     <div id="qrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-gray-800 rounded-lg p-6 w-96">
+        <div class="bg-gray-800 rounded-lg p-6 w-[24rem]">
             <h3 class="text-xl font-semibold mb-4 text-white">Scan QR Code</h3>
-            <div class="flex justify-center mb-4" id="qrCodeContainer">
+            <div class="flex justify-center mb-4 overflow-auto max-h-96" id="qrCodeContainer">
                 <!-- QR Code will be generated here -->
             </div>
             <div class="text-center text-white mb-4">
@@ -141,6 +141,7 @@
             </button>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script>
@@ -400,13 +401,23 @@
                 timestamp: new Date().toISOString()
             };
 
-            new QRCode(qrCodeContainer, {
-                text: JSON.stringify(transactionData),
-                width: 200,
-                height: 200,
+            // Convert JSON ke string
+            let transactionString = JSON.stringify(transactionData);
+
+            // Cek panjang string
+            console.log("Data length:", transactionString.length);
+
+            // Kosongkan container dulu sebelum generate QR baru
+            document.getElementById('qrCodeContainer').innerHTML = "";
+
+            // Generate QR Code
+            new QRCode(document.getElementById('qrCodeContainer'), {
+                text: transactionString,
+                width: 250,
+                height: 250,
                 colorDark: "#ffffff",
                 colorLight: "transparent",
-                correctLevel: QRCode.CorrectLevel.H
+                correctLevel: QRCode.CorrectLevel.M // medium error correction (lebih banyak data)
             });
 
             document.getElementById('qrModal').classList.remove('hidden');

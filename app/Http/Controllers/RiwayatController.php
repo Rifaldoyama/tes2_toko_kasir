@@ -37,43 +37,17 @@ class RiwayatController extends Controller
     }
 
     public function print($id)
-    {
-        // Pastikan hanya pemilik transaksi yang bisa cetak
-        $penjualan = Penjualan::with(['items.barang', 'user'])
-            ->where('user_id', Auth::id())
-            ->findOrFail($id);
-        
-        $pdf = Pdf::loadView('print.struk', [
-            'penjualan' => $penjualan
-        ]);
-        
-        return $pdf->stream('struk-penjualan-'.$penjualan->id.'.pdf');
-    }
+{
+    $penjualan = Penjualan::with(['items.barang', 'user'])
+        ->where('user_id', Auth::id())
+        ->findOrFail($id);
 
-    public function printLaporan(Request $request)
-    {
-        // Hanya data user yang login
-        $query = Penjualan::with(['items', 'user'])
-            ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc');
+    $pdf = Pdf::loadView('print.struk', [
+        'penjualan' => $penjualan,
+        'user' => $penjualan->user // Pass the user data
+    ]);
 
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $query->whereBetween('created_at', [
-                $request->start_date . ' 00:00:00',
-                $request->end_date . ' 23:59:59'
-            ]);
-        }
+    return $pdf->stream('struk-penjualan-' . $penjualan->id . '.pdf');
+}
 
-        $penjualans = $query->get();
-        $total = $penjualans->sum('total_harga');
-
-        $pdf = Pdf::loadView('print.laporan', [
-            'penjualans' => $penjualans,
-            'total' => $total,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
-        ]);
-        
-        return $pdf->stream('laporan-penjualan-'.Auth::id().'.pdf');
-    }
 }

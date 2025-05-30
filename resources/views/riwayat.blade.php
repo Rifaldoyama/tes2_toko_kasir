@@ -71,7 +71,7 @@
                         @forelse ($penjualans as $penjualan)
                             <tr class="hover:bg-gray-50 transition-colors duration-150">
                                 <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {{ $penjualan->id }}</td>
+                                    {{ $loop->iteration }}</td>
                                 <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $penjualan->created_at->format('d/m/Y H:i') }}
                                 </td>
